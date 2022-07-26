@@ -19,7 +19,7 @@ local Threads = {}
 ]]--
 
 Service.Settings = {
-		ReportFailure = true;
+	ReportFailure = true;
 };
 
 --//End of "Arrays"//--
@@ -34,7 +34,7 @@ local function Reconcile(
 	
 	task.desynchronize()
 	for SETTING, VALUE in pairs(TABLE_0) do
-		TABLE_2[SETTING] = (TABLE_1[SETTING]) or VALUE
+		TABLE_2[SETTING] = (TABLE_1[SETTING] ~= nil and TABLE_1[SETTING]) or VALUE
 		
 	end
 	task.synchronize()
