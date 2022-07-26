@@ -17,30 +17,31 @@ local Threads = {}
 --[[Example,
 	
 ]]--
-
-Service.Settings = {
-	ReportFailure = true;
-};
-
+local TEMPLATE = {
+	Connections = {};
+	Waits = {};
+	
+}
 --//End of "Arrays"//--
 
 
 
 --//Main Functions//--
-local function Reconcile(
-	TABLE_0, TABLE_1
-)
-	local TABLE_2 = {}
+local function TaskHandler(
+		EVENT, EVENT_HANDLER
+	)
+	local runningCoro = coroutine.running()
 	
-	task.desynchronize()
-	for SETTING, VALUE in pairs(TABLE_1) do
-		TABLE_2[SETTING] = (VALUE ~= nil and VALUE) or TABLE_0[SETTING]
-		
-	end
-	task.synchronize()
+	local RETURN, CONNECTION
+	CONNECTION = EVENT:CONNECT(function(...)
+			coroutine.resume(runningCoro)
+			RETURN = EVENT_HANDLER(...)
+			
+	end)
+	coroutine.yield()
 	
-	return
-		TABLE_2
+	return 
+		RETURN
 	
 end
 --//End of "Main Functions"//--
@@ -48,11 +49,15 @@ end
 
 
 --//Main//--
-function Service:Initialize(
-	...
-)
-	Service.Settings = Reconcile(Service.Settings, ...) -- To Make Sure we Have Everything.
-	print("Initialized!")
+function Service:Wait(
+		...
+	)
+	local THREAD = coroutine.create(TaskHandler)
+	--local RETURNS = coroutine.resume(THREAD, ...)
+	
+	print("Ayo")
+	return
+		coroutine.resume(THREAD, ...)
 	
 end
 --//End of "Main"//--
