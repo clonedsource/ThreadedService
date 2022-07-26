@@ -33,8 +33,8 @@ local function Reconcile(
 	local TABLE_2 = {}
 	
 	task.desynchronize()
-	for SETTING, VALUE in pairs(TABLE_0) do
-		TABLE_2[SETTING] = (TABLE_1[SETTING] ~= nil and TABLE_1[SETTING]) or VALUE
+	for SETTING, VALUE in pairs(TABLE_1) do
+		TABLE_2[SETTING] = (VALUE ~= nil and VALUE) or TABLE_0[SETTING]
 		
 	end
 	task.synchronize()
